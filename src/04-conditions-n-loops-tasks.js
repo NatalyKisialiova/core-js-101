@@ -216,11 +216,17 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const finisString = isEndIncluded ? ']' : ')';
+  const startString = isStartIncluded ? '[' : '(';
+  let result = '';
+  if (a > b) {
+    result = `${startString}${b}, ${a}${finisString}`;
+  } else {
+    result = `${startString}${a}, ${b}${finisString}`;
+  }
+  return result;
 }
-
-
 /**
  * Reverse the specified string (put all chars in reverse order)
  *
@@ -381,8 +387,27 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  // throw new Error('Not implemented');
+  const paths = pathes.map((item) => item.split('/'));
+  const result = [];
+
+  for (let i = 0; i < paths[0].length; i += 1) {
+    const currentSegment = paths[0][i];
+    let isCommon = true;
+    for (let j = 1; j < paths.length; j += 1) {
+      if (paths[j][i] !== currentSegment) {
+        isCommon = false;
+        break;
+      }
+    }
+    if (isCommon) {
+      result.push(currentSegment);
+    } else {
+      break;
+    }
+  }
+  return result.length > 0 ? `${result.join('/')}/` : '';
 }
 
 
